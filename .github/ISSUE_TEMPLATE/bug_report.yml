@@ -1,0 +1,48 @@
+name: Bug report
+description: Report a reproducible generation, editing, validation, icon, or layout problem.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for helping improve the skill. Please remove credentials and private data from all examples.
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the actual and expected behavior.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Diagram generation
+        - Incremental editing
+        - Connector routing or layout
+        - Icons
+        - XML validation
+        - Skill instructions
+        - Documentation
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Paste the smallest JSON specification, operations file, or command that reproduces the problem.
+      render: shell
+    validations:
+      required: true
+  - type: input
+    id: python
+    attributes:
+      label: Python version
+      placeholder: "3.12.4"
+  - type: input
+    id: diagrams
+    attributes:
+      label: diagrams.net version or environment
+      placeholder: "Web app, desktop app, or version number"
