@@ -1,0 +1,74 @@
+{
+  "title": "AgentBuilder 智能客服总体架构 V2",
+  "direction": "LR",
+  "auto_icons": true,
+  "icon_layout": "tile",
+  "icon_tile_size": 100,
+  "nodes": [
+    {"id": "customer", "label": "客户", "icon": "fluent:person-24-filled", "icon_color": "#232F3E", "x": 50, "y": 270},
+    {"id": "web", "label": "Web / App", "icon": "fluent:window-dev-tools-24-filled", "icon_color": "#3B82F6", "x": 180, "y": 120},
+    {"id": "wechat", "label": "微信 / 企微", "icon": "fluent:phone-24-filled", "icon_color": "#16A34A", "x": 180, "y": 260},
+    {"id": "voice", "label": "电话 / 呼叫中心", "icon": "logos:amazon-connect", "x": 180, "y": 400},
+
+    {"id": "gateway", "label": "统一接入网关", "icon": "logos:aws-api-gateway", "x": 380, "y": 260},
+    {"id": "orchestrator", "label": "AgentBuilder\n对话与任务编排", "icon": "logos:aws-step-functions", "x": 550, "y": 245, "width": 150, "height": 90},
+    {"id": "intent-agent", "label": "意图识别 Agent", "icon": "fluent:brain-circuit-24-filled", "icon_color": "#8B5CF6", "x": 760, "y": 70},
+    {"id": "knowledge-agent", "label": "知识问答 Agent", "icon": "fluent:book-information-24-filled", "icon_color": "#2563EB", "x": 760, "y": 190},
+    {"id": "business-agent", "label": "业务办理 Agent", "icon": "logos:aws-lambda", "x": 760, "y": 310},
+    {"id": "service-agent", "label": "投诉服务 Agent", "icon": "logos:amazon-connect", "x": 760, "y": 430},
+    {"id": "mcp-gateway", "label": "MCP / Tool Gateway", "icon": "fluent:plug-connected-24-filled", "icon_color": "#FF9900", "x": 950, "y": 260, "width": 150},
+
+    {"id": "model-gateway", "label": "模型网关 / LLM", "icon": "fluent:bot-24-filled", "icon_color": "#8B5CF6", "x": 470, "y": 590},
+    {"id": "knowledge-data", "label": "知识与数据平台\n知识库 · 向量库 · 会话记忆", "icon": "logos:aws-dynamodb", "x": 650, "y": 580, "width": 190, "height": 90},
+    {"id": "guardrail", "label": "安全 · 权限 · 合规护栏", "icon": "logos:aws-shield", "x": 870, "y": 590, "width": 170},
+    {"id": "observability", "label": "可观测 · 评测 · 质量分析", "icon": "logos:aws-cloudwatch", "x": 1060, "y": 590, "width": 170},
+
+    {"id": "crm", "label": "CRM\n客户360 · 服务记录", "icon": "fluent:people-team-24-filled", "icon_color": "#2563EB", "x": 1190, "y": 100, "width": 160, "height": 85},
+    {"id": "erp", "label": "ERP\n订单 · 库存 · 履约 · 财务", "icon": "fluent:building-bank-24-filled", "icon_color": "#0F766E", "x": 1190, "y": 260, "width": 170, "height": 85},
+    {"id": "ticket", "label": "工单系统\n创建 · 派发 · SLA · 回访", "icon": "fluent:ticket-diagonal-24-filled", "icon_color": "#D97706", "x": 1190, "y": 420, "width": 170, "height": 85},
+
+    {"id": "human", "label": "人工客服工作台", "icon": "fluent:person-head-hint-24-filled", "icon_color": "#0EA5E9", "x": 1370, "y": 500, "width": 150},
+    {"id": "bi", "label": "运营与业务智能驾驶舱\n洞察 · 预测 · 策略优化", "icon": "logos:aws-quicksight", "x": 1250, "y": 700, "width": 210, "height": 90}
+  ],
+  "edges": [
+    {"id": "a1", "source": "customer", "target": "web", "points": [{"x": 140, "y": 315}, {"x": 140, "y": 150}]},
+    {"id": "a2", "source": "customer", "target": "wechat", "points": [{"x": 140, "y": 315}, {"x": 140, "y": 290}]},
+    {"id": "a3", "source": "customer", "target": "voice", "points": [{"x": 140, "y": 315}, {"x": 140, "y": 430}]},
+    {"id": "a4", "source": "web", "target": "gateway", "points": [{"x": 330, "y": 150}, {"x": 330, "y": 290}]},
+    {"id": "a5", "source": "wechat", "target": "gateway"},
+    {"id": "a6", "source": "voice", "target": "gateway", "points": [{"x": 330, "y": 430}, {"x": 330, "y": 290}]},
+    {"id": "a7", "source": "gateway", "target": "orchestrator", "label": "身份与会话上下文"},
+
+    {"id": "a8", "source": "orchestrator", "target": "intent-agent", "points": [{"x": 725, "y": 290}, {"x": 725, "y": 100}]},
+    {"id": "a9", "source": "orchestrator", "target": "knowledge-agent", "points": [{"x": 725, "y": 290}, {"x": 725, "y": 220}]},
+    {"id": "a10", "source": "orchestrator", "target": "business-agent", "points": [{"x": 725, "y": 290}, {"x": 725, "y": 340}]},
+    {"id": "a11", "source": "orchestrator", "target": "service-agent", "points": [{"x": 725, "y": 290}, {"x": 725, "y": 460}]},
+
+    {"id": "a12", "source": "intent-agent", "target": "mcp-gateway", "points": [{"x": 910, "y": 100}, {"x": 910, "y": 290}]},
+    {"id": "a13", "source": "business-agent", "target": "mcp-gateway", "points": [{"x": 910, "y": 340}, {"x": 910, "y": 290}], "label": "业务工具调用"},
+    {"id": "a14", "source": "service-agent", "target": "mcp-gateway", "points": [{"x": 910, "y": 460}, {"x": 910, "y": 290}]},
+
+    {"id": "a15", "source": "mcp-gateway", "target": "crm", "points": [{"x": 1130, "y": 290}, {"x": 1130, "y": 140}], "label": "客户服务数据"},
+    {"id": "a16", "source": "mcp-gateway", "target": "erp", "label": "订单履约数据"},
+    {"id": "a17", "source": "mcp-gateway", "target": "ticket", "points": [{"x": 1130, "y": 290}, {"x": 1130, "y": 460}], "label": "工单闭环"},
+
+    {"id": "a18", "source": "knowledge-agent", "target": "knowledge-data", "points": [{"x": 820, "y": 550}, {"x": 745, "y": 550}], "label": "RAG 检索"},
+    {"id": "a19", "source": "orchestrator", "target": "model-gateway", "points": [{"x": 625, "y": 530}, {"x": 530, "y": 530}], "label": "推理生成"},
+    {"id": "a20", "source": "orchestrator", "target": "knowledge-data", "points": [{"x": 625, "y": 540}, {"x": 745, "y": 540}], "label": "记忆读写"},
+    {"id": "a21", "source": "guardrail", "target": "orchestrator", "points": [{"x": 955, "y": 545}, {"x": 625, "y": 545}], "label": "策略控制"},
+    {"id": "a22", "source": "orchestrator", "target": "observability", "points": [{"x": 625, "y": 560}, {"x": 1145, "y": 560}], "label": "全链路追踪"},
+
+    {"id": "a23", "source": "service-agent", "target": "human", "points": [{"x": 840, "y": 540}, {"x": 1445, "y": 540}], "label": "转人工"},
+    {"id": "a24", "source": "ticket", "target": "human", "points": [{"x": 1360, "y": 460}, {"x": 1360, "y": 530}]},
+    {"id": "a25", "source": "crm", "target": "bi", "points": [{"x": 1160, "y": 140}, {"x": 1160, "y": 745}]},
+    {"id": "a26", "source": "erp", "target": "bi", "points": [{"x": 1145, "y": 300}, {"x": 1145, "y": 745}]},
+    {"id": "a27", "source": "ticket", "target": "bi", "points": [{"x": 1130, "y": 460}, {"x": 1130, "y": 745}]},
+    {"id": "a28", "source": "observability", "target": "bi", "points": [{"x": 1145, "y": 670}, {"x": 1355, "y": 670}], "label": "服务质量指标"}
+  ],
+  "groups": [
+    {"id": "g-channel", "label": "全渠道接入", "members": ["customer", "web", "wechat", "voice"]},
+    {"id": "g-agentbuilder", "label": "AgentBuilder 智能体平台", "members": ["gateway", "orchestrator", "intent-agent", "knowledge-agent", "business-agent", "service-agent", "mcp-gateway", "model-gateway", "knowledge-data", "guardrail", "observability"]},
+    {"id": "g-enterprise", "label": "企业业务系统", "members": ["crm", "erp", "ticket"]},
+    {"id": "g-operation", "label": "人机协同与运营智能", "members": ["human", "bi"]}
+  ]
+}
