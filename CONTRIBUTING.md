@@ -22,11 +22,7 @@ Thanks for helping improve Draw.io mxGraph Skill.
 ## Validation
 
 ```bash
-python3 drawio-mxgraph/scripts/drawio_tool.py \
-  validate examples/agentbuilder-customer-service-architecture.drawio
-
-python3 drawio-mxgraph/scripts/drawio_tool.py \
-  validate examples/agentbuilder-customer-service-flow.drawio
+python3 scripts/validate_examples.py
 ```
 
 For a layout bug, attach the smallest JSON specification that reproduces the issue. Do not commit downloaded icon caches, credentials, or personal files.
